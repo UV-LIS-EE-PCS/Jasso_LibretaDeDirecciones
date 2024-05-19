@@ -12,28 +12,28 @@ public class AddressBookApplication {
         Menu menu = new Menu();
         Scanner in = new Scanner(System.in);
         AddressBook addressBook = AddressBook.getInstance();
-        AddressEntry addressEntry;
 
         do {
             menu.displayMenu();
-            char option = in.next().charAt(0);
+            char option = in.next().toLowerCase().charAt(0);
             switch (option) {
                 case 'a': // cargar archivo
                     System.out.println("Ingresa el nombre del archivo:");
                     String filename = in.nextLine();
-                    menu.loadFile(filename);
+                    addressBook.readFromATextFile(filename);
                     break;
                 case 'b': // agregar
                     menu.add();
                     break;
                 case 'c': // eliminar
-                    System.out.println("Ingresa el apellido del contacto a eliminar");
+                    in.nextLine();
+                    System.out.println("Ingresa el apellido completo del contacto a eliminar");
                     String lastname = in.nextLine();
                     ArrayList<AddressEntry> contactsToDelete;
                     try {
-                        contactsToDelete = addressBook.findAddressEntry(lastname);
+                        contactsToDelete = addressBook.findAddressEntry(lastname, true);
                     } catch (Exception ex) {
-                        System.out.println("La lista esta vacia, intenta agregar al menos un contacto antes");
+                        System.out.println(ex.getMessage());
                         break;
                     }
                     addressBook.showContactsFound(contactsToDelete);
@@ -51,7 +51,7 @@ public class AddressBookApplication {
                     String startOfLastName = in.nextLine();
                     ArrayList<AddressEntry> contactsFound;
                     try {
-                        contactsFound = addressBook.findAddressEntry(startOfLastName);
+                        contactsFound = addressBook.findAddressEntry(startOfLastName, false);
                     } catch (Exception ex) {
                         System.out.println(ex.getMessage());
                         break;

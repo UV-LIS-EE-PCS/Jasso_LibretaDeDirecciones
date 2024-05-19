@@ -3,28 +3,24 @@ package address;
 import address.data.AddressBook;
 import address.data.AddressEntry;
 
-import java.io.FileNotFoundException;
+
 import java.util.Scanner;
-import java.io.File;
 
 public class Menu {
 
     private Scanner in = new Scanner(System.in);
 
     public void displayMenu() {
-        System.out.println("==================================== \n" +
-                "Elige una opción del menú \n" +
-                "a) Cargar de archivo \n" +
-                "b) Agregar \n" +
-                "c) Eliminar \n" +
-                "d) Buscar \n" +
-                "e) Mostrar \n" +
-                "f) Salir \n" +
-                "====================================");
-    }
-
-    public void loadFile(String filename) {
-        // TODO: Implement this method
+        System.out.println("""
+                ====================================\s
+                Elige una opción del menú\s
+                a) Cargar de archivo\s
+                b) Agregar\s
+                c) Eliminar\s
+                d) Buscar\s
+                e) Mostrar\s
+                f) Salir\s
+                ====================================""");
     }
 
     public void add() {
