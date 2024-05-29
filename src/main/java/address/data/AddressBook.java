@@ -6,10 +6,10 @@ import java.util.Comparator;
 
 public class AddressBook {
     private static AddressBook instance = null;
-    private ArrayList<AddressEntry> entriesList;
+    private ArrayList<AddressEntry> entries;
 
     private AddressBook() {
-        this.entriesList = new ArrayList<>();
+        this.entries = new ArrayList<>();
     }
 
     public static AddressBook getInstance() {
@@ -21,15 +21,15 @@ public class AddressBook {
 
     public void showContactsList() {
         // TODO: Order by last name
-        if (entriesList.isEmpty()) System.out.println("La lista esta vacia:(");
+        if (entries.isEmpty()) System.out.println("La lista esta vacia:(");
         else {
             // Definir el comparador
             Comparator<AddressEntry> byLastName = Comparator.comparing(AddressEntry::getLastName);
 
             // Ordenar la lista
-            entriesList.sort(byLastName);
-            for (AddressEntry entry : entriesList) {
-                System.out.println((entriesList.indexOf(entry) + 1) + ". " + entry.toString() + "\n");
+            entries.sort(byLastName);
+            for (AddressEntry entry : entries) {
+                System.out.println((entries.indexOf(entry) + 1) + ". " + entry.toString() + "\n");
             }
         }
     }
@@ -37,10 +37,10 @@ public class AddressBook {
     public ArrayList<AddressEntry> findAddressEntry(String lastName, boolean strict) throws Exception {
         if (strict) lastNameExistInContactsList(lastName);
         ArrayList<AddressEntry> matchingContacts = new ArrayList<>();
-        if (entriesList.isEmpty()) {
+        if (entries.isEmpty()) {
             throw new Exception("La lista esta vacia:(");
         } else {
-            for (AddressEntry entry : entriesList) {
+            for (AddressEntry entry : entries) {
                 if (entry.getLastName().toLowerCase().contains(lastName.toLowerCase())) {
                     matchingContacts.add(entry);
                 }
@@ -50,17 +50,17 @@ public class AddressBook {
     }
 
     public void lastNameExistInContactsList(String lastName) throws Exception {
-        if (entriesList.stream().noneMatch(entry -> entry.getLastName().equalsIgnoreCase(lastName))) {
+        if (entries.stream().noneMatch(entry -> entry.getLastName().equalsIgnoreCase(lastName))) {
             throw new Exception("El apellido no existe en la lista de contactos");
         }
     }
 
     public void addAddressEntry(AddressEntry addressEntry) {
-        entriesList.add(addressEntry);
+        entries.add(addressEntry);
     }
 
     public void deleteAddressEntry(String lastName) {
-        entriesList.removeIf(entry -> entry.getLastName().equalsIgnoreCase(lastName));
+        entries.removeIf(entry -> entry.getLastName().equalsIgnoreCase(lastName));
     }
 
     public void readFromATextFile(String filename) {
@@ -88,7 +88,7 @@ public class AddressBook {
         } else {
             System.out.println("Los siguientes " + contacts.size() + " contactos fueron encontrados");
             for (AddressEntry entry: contacts) {
-                System.out.println((entriesList.indexOf(entry) + 1) + ". " + entry.toString());
+                System.out.println((entries.indexOf(entry) + 1) + ". " + entry.toString());
             }
         }
     }
