@@ -1,9 +1,6 @@
 package address;
 
 import address.data.AddressBook;
-import address.data.AddressEntry;
-
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AddressBookApplication {
@@ -18,45 +15,25 @@ public class AddressBookApplication {
             char option = in.next().toLowerCase().charAt(0);
             switch (option) {
                 case 'a': // cargar archivo
-                    System.out.println("Ingresa el nombre del archivo:");
-                    String filename = in.nextLine();
-                    addressBook.readFromATextFile(filename);
+                    menu.readContactFromTextFile();
                     break;
                 case 'b': // agregar
                     menu.add();
                     break;
                 case 'c': // eliminar
-                    in.nextLine();
-                    System.out.println("Ingresa el apellido completo del contacto a eliminar");
-                    String lastname = in.nextLine();
-                    ArrayList<AddressEntry> contactsToDelete;
                     try {
-                        contactsToDelete = addressBook.findAddressEntry(lastname, true);
-                    } catch (Exception ex) {
-                        System.out.println(ex.getMessage());
-                        break;
-                    }
-                    addressBook.showContactsFound(contactsToDelete);
-                    System.out.println("Ingresa 'y' para eliminar o 'n' para regresar al menú");
-                    char choice = in.next().charAt(0);
-                    if (choice == 'y') {
-                        addressBook.deleteAddressEntry(lastname);
-                    } else if (choice != 'n') {
-                        System.out.println("Opcion incorrecta");
+                        menu.deleteAddressEntry();
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
                     }
                     break;
                 case 'd': // buscar
-                    in.nextLine();
-                    System.out.println("Ingrese apellido completo o primeras letras:");
-                    String startOfLastName = in.nextLine();
-                    ArrayList<AddressEntry> contactsFound;
+
                     try {
-                        contactsFound = addressBook.findAddressEntry(startOfLastName, false);
-                    } catch (Exception ex) {
-                        System.out.println(ex.getMessage());
-                        break;
+                        menu.searchContact();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
                     }
-                    addressBook.showContactsFound(contactsFound);
                     break;
                 case 'e': // mostrar lista
                     addressBook.showContactsList();
