@@ -15,6 +15,7 @@ public class AddressBookApplication {
         AddressBook addressBook = AddressBook.getInstance();
 
         do {
+            addressBook.automaticLoadContacts();
             menu.displayMenu();
             char option = in.next().toLowerCase().charAt(0);
             switch (option) {

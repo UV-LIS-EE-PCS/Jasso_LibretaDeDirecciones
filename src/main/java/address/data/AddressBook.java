@@ -21,7 +21,6 @@ public class AddressBook {
         this.entries = new ArrayList<>();
     }
 
-
     /**
      * Returns the singleton instance of AddressBook.
      *
@@ -32,6 +31,21 @@ public class AddressBook {
             instance = new AddressBook();
         }
         return instance;
+    }
+
+    /**
+     * Automatically loads contacts from the "ContactsSaved.txt" file.
+     * If the address book is empty and the file exists, it reads the contacts
+     * from the file and adds them to the address book.
+     */
+    public void automaticLoadContacts() {
+        String currentDirectory = System.getProperty("user.dir");
+        String actualDirectory = currentDirectory + "\\contacts\\ContactsSaved.txt";
+
+        File contactsSaved = new File(actualDirectory);
+        if (entries.isEmpty() && contactsSaved.exists()) {
+            readFromATextFile(contactsSaved.getName());
+        }
     }
 
     /**
