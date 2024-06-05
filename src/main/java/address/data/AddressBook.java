@@ -34,6 +34,15 @@ public class AddressBook {
     }
 
     /**
+     * Returns the list of contacts.
+     *
+     * @return entries
+     */
+    public ArrayList<AddressEntry> getEntries() {
+        return entries;
+    }
+
+    /**
      * Automatically loads contacts from the "ContactsSaved.txt" file.
      * If the address book is empty and the file exists, it reads the contacts
      * from the file and adds them to the address book.
@@ -165,30 +174,35 @@ public class AddressBook {
             ArrayList<String> contactData = new ArrayList<>();
             while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty()) {
-                    if (contactData.size() == 8) {
-                        try {
-                            AddressEntry entry = new Menu().isDataValidated(contactData.get(0), contactData.get(1), contactData.get(2), contactData.get(3), contactData.get(4), Integer.parseInt(contactData.get(5)), contactData.get(6), contactData.get(7));
-                            addAddressEntry(entry);
-                        } catch (Exception validatedException) {
-                            System.out.println("Hubo un error al cargar el contacto desde el archivo, por favor valida los datos");
-                        }
-                    }
+                    loadContact(contactData);
                     contactData.clear();
                 } else {
                     contactData.add(line.trim());
                 }
             }
-
-            if (!contactData.isEmpty() && contactData.size() == 8) {
-                try {
-                    AddressEntry entry = new Menu().isDataValidated(contactData.get(0), contactData.get(1), contactData.get(2), contactData.get(3), contactData.get(4), Integer.parseInt(contactData.get(5)), contactData.get(6), contactData.get(7));
-                    addAddressEntry(entry);
-                } catch (Exception validatedException) {
-                    System.out.println("Hubo un error al cargar el contacto desde el archivo, por favor valida los datos");
-                }
-            }
+            loadContact(contactData);
         } catch (IOException e) {
             System.err.println("Error al cargar el archivo");
+        }
+    }
+
+    /**
+     * Loads a contact from a list of contact data strings. If the size of the list is 8,
+     * it attempts to validate and create an AddressEntry object from the data.
+     * If the data is validated successfully, the entry is added. If an exception occurs
+     * during validation, an error message is printed.
+     *
+     * @param contactData an ArrayList of Strings containing the contact data, expected
+     * to have exactly 8 elements.
+     */
+    private void loadContact(ArrayList<String> contactData) {
+        if (contactData.size() == 8) {
+            try {
+                AddressEntry entry = new Menu().isDataValidated(contactData.get(0), contactData.get(1), contactData.get(2), contactData.get(3), contactData.get(4), Integer.parseInt(contactData.get(5)), contactData.get(6), contactData.get(7));
+                addAddressEntry(entry);
+            } catch (Exception validatedException) {
+                System.out.println("Hubo un error al cargar el contacto desde el archivo, por favor valida los datos");
+            }
         }
     }
 
@@ -238,7 +252,7 @@ public class AddressBook {
                 writer.newLine();
                 writer.write(entry.getPhone());
                 writer.newLine();
-                writer.newLine(); // Add a blank line to separate contacts
+                writer.newLine();
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

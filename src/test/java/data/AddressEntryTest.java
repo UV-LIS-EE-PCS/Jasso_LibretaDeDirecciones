@@ -11,7 +11,7 @@ public class AddressEntryTest {
     AddressEntry addressEntry = new AddressEntry("Emilio", "Jasso", "Los Naranjos",
             "Las Choapas", "Veracruz", 96980, "emi@uv.mx", "923-139-9550");
     @Test
-    void hasName() {
+    void hasBeenInitialized() {
         assertEquals("Emilio", addressEntry.getName());
     }
 
